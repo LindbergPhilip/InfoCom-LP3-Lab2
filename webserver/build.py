@@ -42,17 +42,37 @@ def map():
 
 @app.route('/get_drones', methods=['GET'])
 def get_drones():
+    drone_dict = {}
+    
     #Hämta data för Drone1
-    longitude1 = float(redis_server.get("Drone1:longitude1"))
-    latitude1 = float(redis_server.get("Drone1:latitude1"))
-    status1 = redis_server.get("Drone1:status1")
-    longitude1_svg,latitude1_svg = translate((longitude1,latitude1))
+    longitude1_key = "Drone1:longitude"
+    latitude1_key = "Drone1:latitude"
+    status1_key = "Drone1:status"
+    longitude1 = redis_server.get(longitude1_key)
+    latitude1 = redis_server.get(latitude1_key)
+    status1 = redis_server.get(status1_key)
+    
+    
+    if longitude1 is not None and latitude1 is not None:
+        longitude1 = float(longitude1)
+        latitude1 = float(latitude1)
+        longitude1_svg,latitude1_svg = translate((longitude1,latitude1))
+        drone_dict['DRONE_1'] = {'longitude': longitude1_svg,'latitude': latitude1_svg, 'status': status1}
 
     #Hämta data för Drone2
-    longitude2 = float(redis_server.get("Drone2:longitude2"))
-    latitude2 = float(redis_server.get("Drone2:latitude2"))
-    status2 = redis_server.get("Drone2:status2")
-    longitude2_svg,latitude2_svg = translate((longitude2,latitude2))
+    longitude2_key = "Drone2:longitude"
+    latitude2_key = "Drone2:latitude"
+    status2_key = "Drone2:status"
+    longitude2 = redis_server.get(longitude2_key)
+    latitude2 = redis_server.get(latitude2_key)
+    status2 = redis_server.get(status2_key)
+    
+    
+    if longitude2 is not None and latitude2 is not None:
+        longitude2 = float(longitude2)
+        latitude2 = float(latitude2)
+        longitude2_svg,latitude2_svg = translate((longitude2,latitude2))
+        drone_dict['DRONE_2'] = {'longitude': longitude2_svg,'latitude': latitude2_svg, 'status': status2}
     
     
     #=============================================================================================================================================
@@ -64,9 +84,6 @@ def get_drones():
     #              }
     # use function translate() to covert the coodirnates to svg coordinates
     #=============================================================================================================================================
-    drone_dict = {'DRONE_1':{'longitude': longitude1_svg,'latitude': latitude1_svg, 'status': status1},
-                   'DRONE_2': {'longitude': latitude2_svg,'latitude': latitude2_svg, 'status': status2}
-                  }
     return jsonify(drone_dict)
 
 if __name__ == "__main__":
