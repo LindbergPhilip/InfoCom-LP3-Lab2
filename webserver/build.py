@@ -42,14 +42,16 @@ def map():
 
 @app.route('/get_drones', methods=['GET'])
 def get_drones():
-    longitude1 = float(redis_server.get("Drone1", 'longitude1'))
-    latitude1 = float(redis_server.get("Drone1", 'latitude1'))
-    status1 = redis_server.get("Drone1", 'status1')
+    #Hämta data för Drone1
+    longitude1 = float(redis_server.get("Drone1:longitude1"))
+    latitude1 = float(redis_server.get("Drone1:latitude1"))
+    status1 = redis_server.get("Drone1:status1")
     longitude1_svg,latitude1_svg = translate((longitude1,latitude1))
-    
-    longitude2 = float(redis_server.get("Drone2", 'longitude2'))
-    latitude2 = float(redis_server.get("Drone2", 'latitude2'))
-    status2 = redis_server.get("Drone2", 'status2')
+
+    #Hämta data för Drone2
+    longitude2 = float(redis_server.get("Drone2:longitude2"))
+    latitude2 = float(redis_server.get("Drone2:latitude2"))
+    status2 = redis_server.get("Drone2:status2")
     longitude2_svg,latitude2_svg = translate((longitude2,latitude2))
     
     
