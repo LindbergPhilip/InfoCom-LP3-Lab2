@@ -13,7 +13,7 @@ app.secret_key = 'dljsaklqk24e21cjn!Ew@@dsa5'
 
 # change this to connect to your redis server
 # ===============================================
-redis_server = redis.Redis("REDIS_SERVER", decode_responses=True, charset="unicode_escape")
+redis_server = redis.Redis(host = 'localhost', port = '6379', decode_responses=True, charset="unicode_escape")
 # ===============================================
 
 geolocator = Nominatim(user_agent="my_request")
@@ -46,13 +46,40 @@ def route_planner():
         # Here you need to find a drone that is availale from the database. You need to check the status of the drone, there are two status, 'busy' or 'idle', only 'idle' drone is available and can be sent the coords to run delivery
         # 1. Find avialable drone in the database (Hint: Check keys in RedisServer)
         # if no drone is availble:
-        message = 'No available drone, try later'
-        # else:
-            # 2. Get the IP of available drone, 
-        DRONE_URL = 'http://' + DRONE_IP+':5000'
-            # 3. Send coords to the URL of available drone
-        message = 'Got address and sent request to the drone'
-    return message
+        status1 = redis_server.get('Drone1','status1')
+        drone1 = redis_server.get('Drone1','id1')
+        status2 = redis_server.get('Drone2','status2')
+        drone2 = redis_server.get('Drone2','id2')
+        ip1 = redis_server.get('Drone1','ip1')
+        ip2 = redis_server.get('Drone2','ip2')
+        
+        
+        if status1 == 'idle':
+            available_drone = drone1
+            drone_ip = ip1
+            DRONE_URL = 'http://' + drone_ip +':5000'
+    
+         # 3. Send coords to the URL of available drone
+            send_request(drone_url, coords)
+            message = 'Got address and sent request to the drone'
+            
+
+        elif status2 == 'idle':
+            available_drone = drone2
+            drone_ip = ip2
+            DRONE_URL = 'http://' + drone_ip +':5000'
+    
+         # 3. Send coords to the URL of available drone
+            send_request(drone_url, coords)
+            message = 'Got address and sent request to the drone'
+            
+        else:
+            message = 'No available drone, try later'
+        
+        return message
+
+            # 2. Get the IP of available drone,
+        
         # ======================================================================
 
 
