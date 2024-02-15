@@ -46,7 +46,6 @@ def route_planner():
         # Here you need to find a drone that is availale from the database. You need to check the status of the drone, there are two status, 'busy' or 'idle', only 'idle' drone is available and can be sent the coords to run delivery
         # 1. Find avialable drone in the database (Hint: Check keys in RedisServer)
         # if no drone is availble:
-        
         #status1 = redis_server.get('Drone1','status1')
         #drone1 = redis_server.get('Drone1','id1')
         #status2 = redis_server.get('Drone2','status2')
@@ -54,9 +53,10 @@ def route_planner():
         #ip1 = redis_server.get('Drone1','ip1')
         #ip2 = redis_server.get('Drone2','ip2')
         
+        
         drones = ['Drone1', 'Drone2']
         for drone in drones:
-            status = redis_server.get(f"{drone}:status"}
+            status = redis_server.get(f"{drone}:status")
             if status == 'idle':
                 drone_ip = redis_server.get(f"{drone}:ip")
                 DRONE_URL = f'http://{drone_ip}:5000/drone'
@@ -66,9 +66,7 @@ def route_planner():
 
         
         message = 'No available drone, try later'
-        return message
-
-            # 2. Get the IP of available drone,
+        return message,
         
         # ======================================================================
 
