@@ -27,18 +27,11 @@ def drone():
     print(drone_latitude)
     print(drone_status)
     
-    if (drone_id == "Drone1"):
-        redis_server.set('id1', drone_id)
-        redis_server.set('ip1', drone_ip)
-        redis_server.set('longitude1', drone_longitude)
-        redis_server.set('latitude1', drone_latitude)
-        redis_server.set('status1', drone_status)
-    if (drone_id == "Drone2"):
-        redis_server.set('id2', drone_id)
-        redis_server.set('ip2', drone_ip)
-        redis_server.set('longitude2', drone_longitude)
-        redis_server.set('latitude2', drone_latitude)
-        redis_server.set('status2', drone_status)
+    #Uppdatera Redis-databasen
+    redis_server.set(f"{drone_id}:ip", drone_ip)
+    redis_server.set(f"{drone_id}:longitude", drone_longitude)
+    redis_server.set(f"{drone_id}:latitude", drone_latitude)
+    redis_server.set(f"{drone_id}:status", drone_status)
    
     # Get the infomation of the drone in the request, and update the information in Redis database
     # Data that need to be stored in the database: 
