@@ -21,12 +21,6 @@ def drone():
     drone_latitude = drone['latitude']
     drone_status = drone['status']
     
-    print(drone_ip)
-    print(drone_id)
-    print(drone_longitude)
-    print(drone_latitude)
-    print(drone_status)
-    
     #Uppdatera Redis-databasen
     redis_server.set(f"{drone_id}:ip", drone_ip)
     redis_server.set(f"{drone_id}:longitude", drone_longitude)
